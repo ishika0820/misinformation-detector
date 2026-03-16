@@ -1,5 +1,11 @@
 # AI System for Detecting Misinformation
 
+![Python](https://img.shields.io/badge/Python-3.9-blue)
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-NLP-green)
+![Model](https://img.shields.io/badge/Model-TFIDF%20%2B%20Logistic%20Regression-orange)
+![Dataset](https://img.shields.io/badge/Dataset-LIAR-red)
+
+
 ## Overview
 This project builds a machine learning system that detects misinformation in political statements. The model is trained on the LIAR dataset and classifies claims as **REAL** or **FAKE**.
 
@@ -126,6 +132,19 @@ python src/preprocess.py
 ```
 python src/train.py
 ```
+
+---
+
+## Example Prediction
+
+Input:
+
+"The economy grew 10% last year"
+
+Output:
+
+Prediction: REAL
+Confidence: 0.74
 
 ---
 
