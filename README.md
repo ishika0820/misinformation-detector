@@ -146,7 +146,6 @@ Output:
 Prediction: REAL
 Confidence: 0.74
 
----
 
 ## Future Improvements
 
