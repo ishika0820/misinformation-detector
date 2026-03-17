@@ -146,6 +146,14 @@ Output:
 Prediction: REAL
 Confidence: 0.74
 
+---
+
+## Demo
+
+![App Screenshot](demo.png)
+
+---
+
 
 ## Future Improvements
 
