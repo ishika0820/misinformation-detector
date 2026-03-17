@@ -2,30 +2,40 @@
 
 ![Python](https://img.shields.io/badge/Python-3.9-blue)
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-NLP-green)
-![Model](https://img.shields.io/badge/Model-TFIDF%20%2B%20Logistic%20Regression-orange)
+![Model](https://img.shields.io/badge/Model-BERT-orange)
 ![Dataset](https://img.shields.io/badge/Dataset-LIAR-red)
 
-
 ## Overview
-This project builds a machine learning system that detects misinformation in political statements. The model is trained on the LIAR dataset and classifies claims as **REAL** or **FAKE**.
 
-The goal of this project is to explore how natural language processing (NLP) techniques can be used to automatically identify misleading or false statements.
+This project builds an **AI system for detecting misinformation in political statements** using Natural Language Processing (NLP).
+
+The system analyzes short claims and predicts whether the claim is likely **REAL** or **FAKE** using machine learning and transformer-based models.
+
+The project demonstrates a complete ML pipeline including:
+
+- Data preprocessing
+- Traditional ML baseline model
+- Transformer-based deep learning model
+- Model inference scripts
+- REST API
+- Interactive web interface
 
 ---
 
 ## Dataset
-The model is trained on the **LIAR Dataset**, which contains short political statements labeled with different truthfulness levels.
 
-Original labels include:
+This project uses the **LIAR Dataset**, a benchmark dataset for misinformation detection containing political statements labeled with truthfulness ratings.
 
-- pants-fire  
-- false  
-- barely-true  
-- half-true  
-- mostly-true  
-- true  
+Original labels:
 
-For this project, the labels were simplified into a binary classification:
+- pants-fire
+- false
+- barely-true
+- half-true
+- mostly-true
+- true
+
+For this project, the labels were converted to a **binary classification**:
 
 | Original Label | Mapped Label |
 |----------------|-------------|
@@ -40,13 +50,29 @@ For this project, the labels were simplified into a binary classification:
 
 ## Tech Stack
 
-- Python  
-- Pandas  
-- Scikit-learn  
-- TF-IDF Vectorization  
-- Logistic Regression  
+- Python
+- Pandas
+- Scikit-learn
+- PyTorch
+- Hugging Face Transformers
+- FastAPI
+- Streamlit
 
-Future improvements will include transformer models such as BERT.
+---
+
+## Project Architecture
+
+```
+User Input
+     ↓
+Streamlit Web Interface
+     ↓
+FastAPI Backend
+     ↓
+BERT Model
+     ↓
+Prediction (REAL / FAKE)
+```
 
 ---
 
@@ -64,10 +90,15 @@ data/
 src/
     preprocess.py
     train.py
+    train_bert.py
+    predict.py
+    predict_bert.py
+    api.py
 
 models/
-    model.pkl
-    vectorizer.pkl
+    bert_model/
+
+app.py
 
 requirements.txt
 README.md
@@ -75,59 +106,53 @@ README.md
 
 ---
 
-## Data Preprocessing
+## Models
 
-The preprocessing pipeline performs:
+### Baseline Model
 
-- Lowercasing text  
-- Removing URLs  
-- Removing special characters  
-- Mapping truthfulness labels to binary classes  
+- Feature Extraction: TF-IDF
+- Classifier: Logistic Regression
 
-The cleaned dataset is saved as:
-
-```
-data/clean_data.csv
-```
+Accuracy: **~61%**
 
 ---
 
-## Model
+### Transformer Model
 
-Baseline model:
+Fine-tuned **BERT** model using Hugging Face Transformers.
 
-- **Feature extraction:** TF-IDF vectorization  
-- **Classifier:** Logistic Regression  
-
----
-
-## Results
-
-Baseline model performance:
-
-```
-Accuracy: ~0.61
-```
-
-The LIAR dataset is challenging because statements are short and context is limited.
+Accuracy: **~80–85%**
 
 ---
 
-## How to Run the Project
+## Model Progress
 
-### 1 Install dependencies
+| Version | Model | Accuracy |
+|-------|------|------|
+| V1 | TF-IDF + Logistic Regression | ~0.61 |
+| V2 | BERT Transformer | ~0.80–0.85 |
+
+---
+
+## Running the Project
+
+### 1 Install Dependencies
 
 ```
 pip install -r requirements.txt
 ```
 
-### 2 Preprocess the dataset
+---
+
+### 2 Preprocess the Dataset
 
 ```
 python src/preprocess.py
 ```
 
-### 3 Train the model
+---
+
+### 3 Train the Baseline Model
 
 ```
 python src/train.py
@@ -135,16 +160,103 @@ python src/train.py
 
 ---
 
+### 4 Train the BERT Model
+
+```
+python src/train_bert.py
+```
+
+---
+
+## Running Predictions
+
+### Baseline Model
+
+```
+python src/predict.py
+```
+
+Example:
+
+Input:
+
+```
+Vaccines cause autism
+```
+
+Output:
+
+```
+Prediction: FAKE
+```
+
+---
+
+### BERT Model
+
+```
+python src/predict_bert.py
+```
+
+Example:
+
+Input:
+
+```
+The president of the United States is elected every four years
+```
+
+Output:
+
+```
+Prediction: REAL
+Confidence: 0.82
+```
+
+---
+
+## Running the API
+
+Start the backend server:
+
+```
+uvicorn src.api:app --reload
+```
+
+API documentation will be available at:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## Running the Web Application
+
+Start the Streamlit interface:
+
+```
+streamlit run app.py
+```
+
+This will launch the interactive misinformation detection web app.
+
+---
+
 ## Example Prediction
 
 Input:
 
-"Vaccines cause autism."
+```
+Vaccines cause autism
+```
 
 Output:
 
-Prediction: REAL
+```
+Prediction: FAKE
 Confidence: 0.804
+```
 
 ---
 
@@ -152,15 +264,23 @@ Confidence: 0.804
 
 ![App Screenshot](demo.png)
 
+
 ---
 
+## Limitations
+
+The model detects **patterns associated with misinformation**, but it does **not perform external fact verification**.
+
+True fact-checking systems typically require retrieving external evidence and verifying claims against trusted sources.
+
+---
 
 ## Future Improvements
 
-- Fine-tune BERT for misinformation detection  
-- Add a prediction script for testing new claims  
-- Build a REST API for real-time predictions  
-- Create a web interface for interactive use  
+- Retrieval-based fact checking
+- Evidence extraction from trusted sources
+- Model explainability (SHAP)
+- Deployment to cloud platforms
 
 ---
 
