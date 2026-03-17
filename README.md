@@ -139,12 +139,12 @@ python src/train.py
 
 Input:
 
-"The economy grew 10% last year"
+"Vaccines cause autism."
 
 Output:
 
 Prediction: REAL
-Confidence: 0.74
+Confidence: 0.804
 
 ---
 
